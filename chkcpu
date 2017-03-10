@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# For assistance call: 0793 572 8612
+#              e-mail: fulford@citylinux.com
+#             on-line: https://www.citylinux.com/belfield
+#########################################################################
+rcpt=fulford@citylinux.com
+tmp=/tmp/chkcpu-$$
+min=${1:-60}
+idle=`sar 5 1 |tee $tmp |awk 'END{print $5}'`
+[ $idle -lt $min ] &&{
+	wio=`awk <$tmp '{print $4}'`
+	/usr/lib/sendmail -C /etc/sendmail.cl $rcpt<<- .
+		Subject: URGENT CPU costraint on BFL
+
+		CPU at $idle% idle
+		WIOP at $wio%
+	.
+}
+rm $tmp
