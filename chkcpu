@@ -14,7 +14,7 @@ idle=`sar 5 1 |tee $tmp |awk 'END{print $5}'`
 		Subject: URGENT CPU costraint on BFL
 
 		CPU at $idle% idle
-		WIOP at $wio%
+		WIO at $wio%
 	.
 }
 rm $tmp
