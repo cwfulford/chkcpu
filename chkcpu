@@ -9,7 +9,7 @@ tmp=/tmp/chkcpu-$$
 min=${1:-60}
 idle=`sar 5 1 |tee $tmp |awk 'END{print $5}'`
 [ $idle -lt $min ] &&{
-	wio=`awk <$tmp '{print $4}'`
+	wio=`awk <$tmp 'END{print $4}'`
 	/usr/lib/sendmail -C /etc/sendmail.cl $rcpt<<- .
 		Subject: URGENT CPU costraint on BFL
 
