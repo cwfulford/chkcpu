@@ -7,9 +7,9 @@
 rcpt=fulford@citylinux.com
 tmp=/tmp/chkcpu-$$
 min=${1:-60}
-idle=`sar 5 1 |tee $tmp |awk 'END{print $5}'`
+idle=`sar 10 1 |awk 'END{print}'|tee $tmp |awk '{print $5}'`
 [ $idle -lt $min ] &&{
-	wio=`awk <$tmp 'END{print $4}'`
+	wio=`awk <$tmp '{print $4}'`
 	/usr/lib/sendmail -C /etc/sendmail.cl $rcpt<<- .
 		Subject: URGENT CPU costraint on BFL
 
