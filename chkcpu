@@ -21,4 +21,4 @@ idle=`sar 10 1 |awk 'END{print}'|awk '{print $5}'`
 		.
 	}
 }
-rm $tmp
+[ -f $tmp ] && rm $tmp
