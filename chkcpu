@@ -7,14 +7,18 @@
 rcpt=fulford@citylinux.com
 tmp=/tmp/chkcpu-$$
 min=${1:-60}
-idle=`sar 10 1 |awk 'END{print}'|tee $tmp |awk '{print $5}'`
+idle=`sar 10 1 |awk 'END{print}'|awk '{print $5}'`
 [ $idle -lt $min ] &&{
-	wio=`awk <$tmp '{print $4}'`
-	/usr/lib/sendmail -C /etc/sendmail.cl $rcpt<<- .
-		Subject: URGENT CPU costraint on BFL
+	sleep 5
+	idle=`sar 10 1 |awk 'END{print}'|tee $tmp |awk '{print $5}'`
+	[ $idle -lt $min ] &&{
+		wio=`awk <$tmp '{print $4}'`
+		/usr/lib/sendmail -C /etc/sendmail.cl $rcpt<<- .
+			Subject: URGENT CPU costraint on BFL
 
-		CPU at $idle% idle
-		WIO at $wio%
-	.
+			CPU at $idle% idle
+			WIO at $wio%
+		.
+	}
 }
 rm $tmp
